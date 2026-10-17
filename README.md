@@ -37,6 +37,8 @@ To import the package from outside this directory, you can install it with
 
 ## Minimal API
 
+You can find more detailed description of the API in this [link](https://github.com/ahmedmalaa/attentive-state-space-models/edit/master/docs/API.md).
+
 ```python
 from assm import AttentiveSSM, ModelConfig, TrainingConfig, generate_synthetic
 
