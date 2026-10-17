@@ -40,14 +40,19 @@ To import the package from outside this directory, you can install it with
 ```python
 from assm import AttentiveSSM, ModelConfig, TrainingConfig, generate_synthetic
 
+# load synthetic data
 data = generate_synthetic()["batch"]
 train, test = data.select(list(range(320))), data.select(list(range(384, 480)))
+
+# instantiate and train an attentive state space model
 model = AttentiveSSM(ModelConfig(num_states=3), seed=19)
-model.fit(train, training=TrainingConfig(epochs=60))  # No true states passed.
+model.fit(train, training=TrainingConfig(epochs=60))
+
+# latent state inference
 posterior = model.posterior(test, num_samples=128)
 state_probabilities = posterior["probs"]  # [patients, visits, states]
 
-# A common-length prefix supplies only observations available at that time.
+# prediction and forecasting of future states and observations
 prediction = model.forecast(test.prefix(8), horizon=3, num_samples=128)
 model.save("my_model.pt")
 restored = AttentiveSSM.load("my_model.pt")
