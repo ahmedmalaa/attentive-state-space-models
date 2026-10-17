@@ -1,0 +1,13 @@
+# Colab already supplies PyTorch; this bound will reuse a compatible install.
+# The completed example was verified with torch 2.5.1+cpu and pyro-ppl 1.9.1.
+torch>=2.2,<3
+pyro-ppl==1.9.1
+numpy>=1.26,<3
+scipy>=1.11,<2
+scikit-learn>=1.4,<2
+matplotlib>=3.8,<4
+pandas>=2.1,<4
+nbformat>=5.9,<6
+nbclient>=0.10,<1
+ipykernel>=6.25,<8
+pytest>=8,<10

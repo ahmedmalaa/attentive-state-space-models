@@ -1,0 +1,106 @@
+{
+  "versions": {
+    "python": "3.12.14",
+    "torch": "2.5.1+cpu",
+    "pyro": "1.9.1",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.8.0"
+  },
+  "seed": 19,
+  "training_seconds_including_initialization": 226.40737549999994,
+  "smoothed": {
+    "accuracy": 0.9834254143646409,
+    "adjusted_rand_index": 0.9486670017077319,
+    "state_nll": 0.04200241342186928,
+    "confusion_matrix": [
+      [
+        474,
+        9,
+        1
+      ],
+      [
+        5,
+        463,
+        4
+      ],
+      [
+        0,
+        2,
+        309
+      ]
+    ],
+    "n_visits": 1267
+  },
+  "filtered": {
+    "accuracy": 0.9818468823993686,
+    "adjusted_rand_index": 0.9432076941012711,
+    "state_nll": 0.061572153121232986,
+    "confusion_matrix": [
+      [
+        477,
+        6,
+        1
+      ],
+      [
+        11,
+        457,
+        4
+      ],
+      [
+        0,
+        1,
+        310
+      ]
+    ],
+    "n_visits": 1267
+  },
+  "gmm": {
+    "accuracy": 0.9802683504340963,
+    "adjusted_rand_index": 0.9376636239485936,
+    "state_nll": 0.054460473358631134,
+    "confusion_matrix": [
+      [
+        472,
+        10,
+        2
+      ],
+      [
+        10,
+        460,
+        2
+      ],
+      [
+        0,
+        1,
+        310
+      ]
+    ],
+    "n_visits": 1267
+  },
+  "initialized_guide": {
+    "accuracy": 0.9826361483820047,
+    "adjusted_rand_index": 0.9465392064407404,
+    "state_nll": 0.051589615643024445,
+    "confusion_matrix": [
+      [
+        474,
+        9,
+        1
+      ],
+      [
+        5,
+        463,
+        4
+      ],
+      [
+        0,
+        3,
+        308
+      ]
+    ],
+    "n_visits": 1267
+  },
+  "mean_rmse": 0.04020870476961136,
+  "transition_mae": 0.06080016866326332,
+  "short_sequence_posterior_mae": 0.0028002627659589052
+}
