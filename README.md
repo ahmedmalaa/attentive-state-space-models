@@ -16,7 +16,7 @@ To import the package from outside this directory, you can install it with
 
 ## Folder contents
 
-| File | Responsibility |
+| File | Description |
 |---|---|
 | `Attentive SS Models.ipynb` | Demo in synthetic data with training, evaluation and API examples |
 | `assm/config.py` | Model and training configuration dataclasses |
