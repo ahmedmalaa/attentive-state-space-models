@@ -29,47 +29,37 @@ model.fit(train_batch, validation=validation_batch,
 
 Note that the warm start by fitting a Gaussian mixture model is enabled by default and uses only training observations. To disable it, set `TrainingConfig(warm_start=False)`. Training uses the Monte Carlo variational objective in our paper with a categorical score estimator. Every epoch consists of `ceil(N / batch_size)` patient minibatches sampled uniformly with replacement. Also note that the logged negative ELBO values are normalized per visit (`history_` is the list of epoch dictionaries).  `mixture_` contains the initialization GMM when used, and `initialization_history_` records its pretraining losses before applying the SVI training process. 
 
-## Smooth complete records
+## Posterior inference
 
 ```python
 result = model.posterior(batch, num_samples=128)
 ```
 
-| Field | Shape | Meaning |
+| Field | Shape | Description |
 |---|---|---|
 | `probs` | `[N,T,K]` | Monte Carlo guide marginals, zero in padding |
 | `states` | `[N,T]` | Marginal argmax, -1 in padding |
 | `samples` | `[S,N,T]` | Whole guide-sampled histories, -1 in padding |
 | `attention` | `[N,T,T]` | Transition weights; first row and padded target rows are zero |
 
-These are approximate *smoothed* estimates: the backward LSTM sees all supplied
-visits. They are not exact posterior probabilities or a Viterbi path. Marginal
-probabilities average guide conditionals over sampled previous states, which
-reduces sampling variance. Use `pyro.set_rng_seed(...)` before a call to reproduce
-its Monte Carlo draws. No inference method updates parameters.
 
-## Filter prefixes
+## Filtering
 
 ```python
 online = model.filter(batch, num_samples=128)
 current = model.posterior(batch.prefix(8))["probs"][:, -1]
 ```
 
-`filter` returns `probs [N,T,K]` and `states [N,T]` using only the prefix available
-at each target visit. It reruns the guide at each prefix, so it costs more than
-one smoothing pass. For unequal histories, gather each patient's last valid
-visit using `lengths - 1`; `[:, -1]` above assumes that the prefix has eight valid
-visits for every patient. This is amortized prefix inference, not exact filtering.
+`filter` returns `probs [N,T,K]` and `states [N,T]` using only the data available
+at the current visit. 
 
-## Forecast
+## Forecasting
 
 ```python
 future = model.forecast(history, horizon=3, num_samples=128)
 ```
 
-Requires equal unpadded history lengths. Group by length or process patients
-individually otherwise. Historical states are sampled from the guide; future
-states and observations are then sampled from the fitted generative model.
+Here, states are sampled from the inference network and future states and observations are then sampled from the fitted generative model.
 Generated observations are fed back to attention at the next step.
 
 | Field | Shape |
@@ -79,10 +69,8 @@ Generated observations are fed back to attention at the next step.
 | `binary` | `[S,N,H,Db]` |
 | `state_probs` | `[N,H,K]` |
 
-Quantiles of continuous draws are observation predictive intervals under the
-point-estimate model; parameter uncertainty is not represented.
 
-## Inspect and save
+## Saving and loading model checkpoints
 
 ```python
 P = model.model.transition_matrix.detach()
@@ -93,18 +81,3 @@ model.save("fitted_assm.pt")
 reloaded = AttentiveSSM.load("fitted_assm.pt", device="cpu")
 ```
 
-Checkpoints contain model config, tensors and training loss history. They do not
-contain the initialization GMM, optimizer state or baseline buffers, and are
-intended for inference. Only load checkpoints from sources you trust; the loader
-uses PyTorch's `weights_only=True` mode.
-
-## Tiny exact diagnostic
-
-```python
-exact = model.exact_posterior(batch.select([0]).prefix(5))
-```
-
-Returns `probs [1,T,K]` and scalar `log_evidence`, enumerating every latent path.
-Requires one unpadded trajectory and refuses more than `max_paths=100_000`.
-This exponential calculation verifies approximation error for a small example;
-it is not the training algorithm or the normal inference path.
