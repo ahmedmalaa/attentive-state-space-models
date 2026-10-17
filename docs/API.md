@@ -14,20 +14,6 @@ batch = SequenceBatch(
 )
 ```
 
-Continuous and binary tensors must be floating point with the same dtype and
-device. Binary features must contain 0 or 1 at valid visits. Lengths must be
-`torch.long` on the same device, between 1 and T. Only right-padding is supported.
-Padded entries, including NaNs there, are replaced by zero; valid NaNs/infinities
-raise an error. Observations are not automatically standardized.
-
-`batch.select(indices)` selects patients; pass a list/tensor to keep the batch
-dimension. `batch.prefix(stop)` retains visits 0 through stop-1 and caps lengths.
-`batch.to(device)` moves all tensors. A model and its batches must have matching
-devices/dtypes; the default model uses float32. Use `.model.double()` if your
-batch intentionally uses float64.
-
-For continuous-only data set `n_binary=0` and pass `torch.empty(N,T,0)` with the
-same dtype and device. Binary-only data is not supported by this implementation.
 
 ## Fit
 
@@ -41,22 +27,7 @@ model.fit(train_batch, validation=validation_batch,
           training=TrainingConfig(epochs=60, batch_size=64, num_particles=2))
 ```
 
-`fit` returns the estimator. Inputs contain observations/lengths only. Optional
-validation contributes logged losses but no updates. The warm start is enabled
-by default and uses only training observations. To disable it, set
-`TrainingConfig(warm_start=False)`.
-
-Training uses the paper's Monte Carlo variational objective with a categorical
-score estimator. An epoch consists of `ceil(N / batch_size)` patient minibatches
-sampled uniformly with replacement. Logged negative ELBO values are normalized
-per valid visit. `history_` is a list of epoch dictionaries; `mixture_` contains
-the initialization GMM when used; `initialization_history_` records its guide
-pretraining losses. `training_seconds_` measures SVI only. The notebook also
-measures total initialization-plus-SVI time.
-
-Calling fit again creates a new optimizer. To retain current weights, set
-`warm_start=False`; otherwise initialization runs again. In each fit, a scoped
-Pyro parameter store prevents accidental sharing with another estimator.
+Note that the warm start by fitting a Gaussian mixture model is enabled by default and uses only training observations. To disable it, set `TrainingConfig(warm_start=False)`. Training uses the Monte Carlo variational objective in our paper with a categorical score estimator. Every epoch consists of `ceil(N / batch_size)` patient minibatches sampled uniformly with replacement. Also note that the logged negative ELBO values are normalized per visit (`history_` is the list of epoch dictionaries).  `mixture_` contains the initialization GMM when used, and `initialization_history_` records its pretraining losses before applying the SVI training process. 
 
 ## Smooth complete records
 
