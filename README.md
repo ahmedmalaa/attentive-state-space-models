@@ -1,11 +1,6 @@
-# Attentive state-space modeling with Pyro
+# Attentive State-space Modeling of Disease Progression
 
-A commented, modular implementation of **Attentive State-Space Modeling of
-Disease Progression**, Alaa & van der Schaar, NeurIPS 2019. The package implements
-the paper's non-Markovian state transitions, LSTM encoder/decoder attention,
-mixed Gaussian/conditional-Bernoulli emissions, and structured variational guide
-with shared attention. The notebook generates its own data and measures hidden
-state recovery on held-out patients.
+This is a [pyro](https://pyro.ai/) implementation of *Attentive State-Space Modeling of Disease Progression* by Alaa and van der Schaar in NeurIPS 2019. This codebase implements the non-Markovian/attention-based state transitions, LSTM encoder/decoder attention, mixed Gaussian/conditional-Bernoulli emissions, and structured variational inference using built-in functions in [pyro](https://pyro.ai/). The notebook "Attentive SS Models.ipynb" contains a demo of how to use the model training and inference APIs on a toy synthetic data generation process.
 
 ## Run in Google Colab
 
