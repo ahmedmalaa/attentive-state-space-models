@@ -65,7 +65,7 @@ restored = AttentiveSSM.load("my_model.pt")
 
 The experiments were conducted using data from the UK Cystic Fibrosis Trust registry. You can apply for access to this dataset through this [website](https://www.cysticfibrosis.org.uk/about-us/uk-cf-registry/apply-for-data-from-the-uk-cf-registry).
 
-You can reproduce all experiments in our paper through our legacy tensorflow codebase under the [tf-codebase](https://github.com/ahmedmalaa/attentive-state-space-models/tree/master/tf-codebase) directory, which also includes all implementations for the baseline models. The We provide comprehensive details on how to process the data and run experiments using the tf implementation in this [notebook](https://github.com/ahmedmalaa/attentive-state-space-models/blob/master/tf-codebase/Cystic_Fibrosis_Experiments.ipynb). 
+You can reproduce the experiments in our paper through our legacy tensorflow codebase under the [tf-codebase](https://github.com/ahmedmalaa/attentive-state-space-models/tree/master/tf-codebase) directory, which also includes all implementations for the baseline models. The We provide comprehensive details on how to process the data and run experiments using the tf implementation in this [notebook](https://github.com/ahmedmalaa/attentive-state-space-models/blob/master/tf-codebase/Cystic_Fibrosis_Experiments.ipynb). 
 
 You can reproduce the predictive performance of our legacy implementation using the Pyro implementation within the error bars using $K=8$ states: 
 
@@ -77,10 +77,9 @@ You can reproduce the predictive performance of our legacy implementation using 
 
 ## Notes
 
-- There is a typo in the published paper on page 2: *"To demonstrate the practical significance of the attentive state-space model, we use it to model
+There is a typo in the published paper on page 2: *"To demonstrate the practical significance of the attentive state-space model, we use it to model
 the progression trajectories of **breast cancer**** using data from the UK Cystic Fibrosis registry."* This statement was referring to **cystic fibrosis** and not **breast cancer**.
 
-- In the data_loader() function, we dropped the ID index in line 59 (X_obs.append(data[k][:, 1:])). This inadvertently led to the column names in the tensorflow [notebook](https://github.com/ahmedmalaa/attentive-state-space-models/blob/master/tf-codebase/Cystic_Fibrosis_Experiments.ipynb) to be shifted by 1, which propagated to the headers of Table 2 in the paper. The correct outcome names should be: Diabetes -> Arthropathy, ABPA -> Hypertension, Depression -> Hemoptysis, Pancreatitis -> Hearing Loss, P. aeruginosa -> Haemophilus Influenza.  
 
 ## References
 
