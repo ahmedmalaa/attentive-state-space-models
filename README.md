@@ -75,8 +75,12 @@ You can reproduce the predictive performance of our legacy implementation using 
 | **Pyro ASSM** | 0.705 ± 0.03 | 0.762 ± 0.03 | 0.744 ± 0.05 | 0.681 ± 0.04 | 0.671 ± 0.02 |
 
 
-
 ## Notes
+
+- There is a typo in the published paper on page 2: *"To demonstrate the practical significance of the attentive state-space model, we use it to model
+the progression trajectories of **breast cancer**** using data from the UK Cystic Fibrosis registry."* This statement was referring to **cystic fibrosis** and not **breast cancer**.
+
+- In the data_loader() function, we dropped the ID index in line 59 (X_obs.append(data[k][:, 1:])). This inadvertently led to the column names in the tensorflow [notebook](https://github.com/ahmedmalaa/attentive-state-space-models/blob/master/tf-codebase/Cystic_Fibrosis_Experiments.ipynb) to be shifted by 1, which propagated to the headers of Table 2 in the paper. The correct outcome names should be: Diabetes -> Arthropathy, ABPA -> Hypertension, Depression -> Hemoptysis, Pancreatitis -> Hearing Loss, P. aeruginosa -> Haemophilus Influenza.  
 
 ## References
 
