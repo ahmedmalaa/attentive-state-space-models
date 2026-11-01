@@ -69,9 +69,11 @@ You can reproduce all experiments in our paper through our legacy tensorflow cod
 
 You can reproduce the predictive performance of our legacy implementation using the Pyro implementation within the error bars using $K=8$ states: 
 
-| Diabetes | ABPA | Depression| Pancreatitis | P. aeruginosa |
+
+| Model | Diabetes | ABPA | Depression | Pancreatitis | P. aeruginosa |
 |---|---|---|---|---|---|
-| 0.705 ± 0.03 | 0.762 ± 0.03 | 0.744 ± 0.05 | 0.681 ± 0.04 | 0.671 ± 0.02 |
+| **Pyro ASSM** | 0.705 ± 0.03 | 0.762 ± 0.03 | 0.744 ± 0.05 | 0.681 ± 0.04 | 0.671 ± 0.02 |
+
 
 
 ## Notes
