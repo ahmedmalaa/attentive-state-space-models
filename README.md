@@ -61,6 +61,20 @@ prediction = model.forecast(test.prefix(8), horizon=3, num_samples=128)
 model.save("my_model.pt")
 restored = AttentiveSSM.load("my_model.pt")
 ```
+## Reproducing our experiments
+
+The experiments were conducted using data from the UK Cystic Fibrosis Trust registry. You can apply for access to this dataset through this [website](https://www.cysticfibrosis.org.uk/about-us/uk-cf-registry/apply-for-data-from-the-uk-cf-registry).
+
+You can reproduce all experiments in our paper through our legacy tensorflow codebase under the [tf-codebase](https://github.com/ahmedmalaa/attentive-state-space-models/tree/master/tf-codebase) directory, which also includes all implementations for the baseline models. The We provide comprehensive details on how to process the data and run experiments using the tf implementation in this [notebook](https://github.com/ahmedmalaa/attentive-state-space-models/blob/master/tf-codebase/Cystic_Fibrosis_Experiments.ipynb). 
+
+You can reproduce the predictive performance of our legacy implementation using the Pyro implementation within the error bars using $K=8$ states: 
+
+| Diabetes | ABPA | Depression| Pancreatitis | P. aeruginosa |
+|---|---|---|---|---|---|
+| 0.705 ± 0.03 | 0.762 ± 0.03 | 0.744 ± 0.05 | 0.681 ± 0.04 | 0.671 ± 0.02 |
+
+
+## Notes
 
 ## References
 
